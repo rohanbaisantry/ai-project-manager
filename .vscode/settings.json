@@ -1,0 +1,13 @@
+{
+  "cSpell.words": [
+    "asignee",
+    "bson",
+    "dotenv",
+    "fastapi",
+    "OPENAI",
+    "pydantic",
+    "redoc",
+    "starlette",
+    "structlog"
+  ]
+}
