@@ -46,3 +46,4 @@ services:
     environment:
       - ENVIRONMENT=LOCAL
       - BASE_API_URI=mongodb://root:root@ai-pm-db:27017/
+

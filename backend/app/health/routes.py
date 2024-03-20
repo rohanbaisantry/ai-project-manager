@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/health", tags=["health"])
 
 
 @router.get("")
-def health() -> Response:
-    return Response(status_code=200, content="Server is running!")
+def health() -> str:
+    return "Server is running!"

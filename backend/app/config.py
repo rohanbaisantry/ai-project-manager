@@ -10,7 +10,7 @@ class CommonSettings(BaseSettings):
 
 
 class ServerSettings(BaseSettings):
-    HOST: str = "0.0.0.0"
+    HOST: str = "localhost"
     PORT: int = 8000
 
 

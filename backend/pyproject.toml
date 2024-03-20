@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ai-project-management"
+name = "ai-project-management-api"
 version = "0.1.0"
 description = "Project Management made easy using AI"
 authors = ["Rohan Baisantry"]
