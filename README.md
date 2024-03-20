@@ -3,8 +3,8 @@ Project Management made easy using AI
 
 ### System Requirements
 
-- Docker and Docker-Compose
-- Note: It is recommended to use [OrbStack](https://orbstack.dev/) for MacOS X.
+- Docker
+- Docker-Compose
 
 ### Run Locally via Docker
 
