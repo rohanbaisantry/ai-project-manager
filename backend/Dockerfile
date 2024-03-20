@@ -9,20 +9,20 @@ RUN pip install --upgrade pip
 # Install poetry to manage dependencies within Python.
 RUN pip install poetry
 
-# Create the application folder
+# Set the working directory
 WORKDIR /opt/app
 
 # Copy poetry's files for dependency management
-COPY poetry.lock .
-COPY pyproject.toml .
+COPY backend/poetry.lock .
+COPY backend/pyproject.toml .
 
 # Install the packages declared in poetry.lock or pyproject.toml
 RUN poetry config virtualenvs.create false
 RUN poetry config installer.max-workers 15
-RUN poetry install --with development
+RUN poetry install --no-dev
 
-# Copy files
-COPY . /opt/app
+# Copy project files
+COPY backend/ /opt/app
 
-# Expose port 80 for http connections
-EXPOSE 80
+# Expose the appropriate port
+EXPOSE 8000

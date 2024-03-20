@@ -12,23 +12,6 @@ Project Management made easy using AI
 docker-compose up --build
 ```
 
-### Tech Stack
-- Python
-- Flask
-- OpenAI
-- Docker and Docker-Compose
-- Jinja2
-- MongoDB
-- Poetry
-
-
-### Installing the dependencies locally
-
-```bash
-pip install poetry
-poetry install --with development
-```
-
 ### How to contribute
 
 - Create a new branch off of `main`

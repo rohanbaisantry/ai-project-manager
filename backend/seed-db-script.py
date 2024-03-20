@@ -7,10 +7,10 @@ from beanie import init_beanie
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
-from app.companies.models import Company
-from app.tasks.models import Task
-from app.users.enums import UserRoles
-from app.users.models import User
+from backend.app.companies.models import Company
+from backend.app.tasks.models import Task
+from backend.app.users.enums import UserRoles
+from backend.app.users.models import User
 
 load_dotenv()
 
