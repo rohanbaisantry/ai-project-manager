@@ -15,14 +15,12 @@ docker-compose up --build
 ### How to contribute
 
 - Create a new branch off of `main`
+- commit normally and don't use the `--no-verify` flag so that the pre-commit hooks run properly and format your code.
 - Push your code to that branch
-- Format the code using [black](https://github.com/psf/black) (You can run the command `black .` at the root of the
-  repository.)
 - Raise a PR against `main`
 - Complete the PR checklist.
-- Get it reviewed by one of the engineers
+- Get it reviewed
 - Upon approval of the PR, merge it.
-- Follow the deployment steps below to deploy if required.
 
 ### Setup the pre-commit hooks
 
@@ -34,4 +32,4 @@ pre-commit install
 
 ### Connect to OpenAI from your local
 
-To connect to OpenAI from your local, you have two methods, either you connect to it using your OpenAI Api Key and you use something like [LM Studio](https://lmstudio.ai/) and run something locally to simulate the OpenAI API
+To connect to OpenAI from your local, you have two methods, either you connect to it using your OpenAI Api Key or you use something like [LM Studio](https://lmstudio.ai/) and run something locally to simulate the OpenAI API

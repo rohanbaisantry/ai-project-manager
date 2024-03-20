@@ -5,8 +5,6 @@ The backend for the ai-project-manager app.
 - Python
 - Flask
 - OpenAI
-- Docker and Docker-Compose
-- Jinja2
 - MongoDB
 - Poetry
 
