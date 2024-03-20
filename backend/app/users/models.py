@@ -1,10 +1,9 @@
 from typing import List
 
-from beanie import Document, Indexed, Link
-
 from app.companies.models import Company
 from app.users.entities import UserChatEntity
 from app.users.enums import UserRoles
+from beanie import Document, Indexed, Link
 
 
 class User(Document):

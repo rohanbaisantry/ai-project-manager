@@ -1,6 +1,5 @@
-from pydantic_settings import BaseSettings
-
 from app.common.enums import Environments
+from pydantic_settings import BaseSettings
 
 
 class CommonSettings(BaseSettings):

@@ -1,8 +1,5 @@
 from typing import Self
 
-from beanie import PydanticObjectId
-from beanie.exceptions import DocumentAlreadyCreated
-
 from app.auth.entities import CreateTeamMembersEntity, SignupEntity
 from app.companies.entities import CreateCompanyEntity
 from app.companies.models import Company
@@ -11,6 +8,8 @@ from app.users.entities import CreateUserEntity
 from app.users.enums import UserRoles
 from app.users.models import User
 from app.users.repositories import UserRepository
+from beanie import PydanticObjectId
+from beanie.exceptions import DocumentAlreadyCreated
 
 
 class AuthUseCases:

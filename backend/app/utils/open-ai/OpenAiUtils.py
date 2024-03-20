@@ -1,8 +1,7 @@
 from typing import Self
 
-from openai import OpenAI
-
 from app.config import settings
+from openai import OpenAI
 
 
 class OpenAiUtils:

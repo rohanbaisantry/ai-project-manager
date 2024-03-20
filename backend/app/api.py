@@ -1,11 +1,10 @@
-from beanie.exceptions import DocumentAlreadyCreated, DocumentNotFound
-from fastapi.responses import PlainTextResponse
-from starlette.middleware.cors import CORSMiddleware
-
 from app.common.enums import Environments
 from app.config import settings
 from app.factories.api import setup_api
 from app.factories.logging import configure_logging
+from beanie.exceptions import DocumentAlreadyCreated, DocumentNotFound
+from fastapi.responses import PlainTextResponse
+from starlette.middleware.cors import CORSMiddleware
 
 
 def get_allowed_origins() -> list[str]:

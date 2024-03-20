@@ -1,7 +1,6 @@
-from openai import BaseModel
-
 from app.users.entities import UserChatEntity
 from app.users.enums import UserRoles
+from openai import BaseModel
 
 
 class SignupSchema(BaseModel):

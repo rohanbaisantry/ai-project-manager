@@ -1,13 +1,12 @@
 from datetime import datetime
 from typing import Self
 
-from beanie import PydanticObjectId
-
 from app.chat.entities import SaveNewChatEntity
 from app.users.entities import UserChatEntity
 from app.users.enums import UserChatSentBy
 from app.users.models import User
 from app.users.repositories import UserRepository
+from beanie import PydanticObjectId
 
 
 class ChatUseCases:

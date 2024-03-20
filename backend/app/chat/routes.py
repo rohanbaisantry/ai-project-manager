@@ -1,11 +1,10 @@
-from beanie import PydanticObjectId
-from fastapi import APIRouter
-
 from app.chat.entities import SaveNewChatEntity
 from app.chat.schemas import UserWithChatsSchema
 from app.chat.serializers import serialize_user_with_chats
 from app.chat.use_cases import ChatUseCases
 from app.users.repositories import UserRepository
+from beanie import PydanticObjectId
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

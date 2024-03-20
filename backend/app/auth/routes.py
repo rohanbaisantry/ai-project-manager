@@ -1,12 +1,11 @@
-from beanie import PydanticObjectId
-from fastapi import APIRouter
-
 from app.auth.entities import CreateTeamMembersRequestEntity, SignupEntity
 from app.auth.schemas import SignupSchema
 from app.auth.serializers import serialize_signup_response
 from app.auth.use_cases import AuthUseCases
 from app.users.schemas import UserSchema
 from app.users.serializers import serialize_user
+from beanie import PydanticObjectId
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

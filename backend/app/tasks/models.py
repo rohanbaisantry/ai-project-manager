@@ -1,10 +1,9 @@
 from datetime import datetime
 from typing import List, Optional
 
-from beanie import Document, Link
-
 from app.companies.models import Company
 from app.users.models import User
+from beanie import Document, Link
 
 
 class Task(Document):

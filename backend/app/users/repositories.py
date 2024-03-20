@@ -1,9 +1,8 @@
 from typing import Self
 
-from beanie import PydanticObjectId, exceptions
-
 from app.users.entities import CreateUserEntity, UserChatEntity
 from app.users.models import User
+from beanie import PydanticObjectId, exceptions
 
 
 class UserRepository:

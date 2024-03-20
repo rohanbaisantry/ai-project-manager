@@ -1,11 +1,10 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-
 from app.auth.routes import router as auth_router
 from app.chat.routes import router as chat_router
 from app.factories.db import setup_db
 from app.health.routes import router as health_router
+from fastapi import FastAPI
 
 
 @asynccontextmanager

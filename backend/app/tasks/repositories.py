@@ -1,9 +1,8 @@
 from typing import Self
 
-from beanie import PydanticObjectId, exceptions
-
 from app.tasks.entities import CreateTaskEntity, UpdateTaskEntity
 from app.tasks.models import Task
+from beanie import PydanticObjectId, exceptions
 
 
 class TaskRepository:
