@@ -1,11 +1,10 @@
-FROM node:18-alpine
+FROM node:18.15.0
 
 # Set the working directory
 WORKDIR /opt/app
 
 # Copy poetry's files for dependency management
 COPY frontend/package.json .
-COPY frontend/package-lock.json .
 
 # Install the packages declared in package.json or package-lock.json
 RUN npm install
@@ -14,4 +13,4 @@ RUN npm install
 COPY frontend/ /opt/app
 
 # Expose the appropriate port
-EXPOSE 3000
+EXPOSE 5173

@@ -24,9 +24,12 @@ docker-compose up --build
 
 Note: This has to be done only once when you setup the repo and it requires you to install the dependencies locally.
 
-```bash
-pip install pre-commit / brew install pre-commit # Install pre-commit
-pre-commit install # Install the different hooks
+```
+# Install pre-commit
+pip install pre-commit (OR) brew install pre-commit 
+
+# Install the different hooks
+pre-commit install 
 ```
 
 #### Steps for raising a PR
@@ -43,4 +46,3 @@ pre-commit install # Install the different hooks
 ### Connect to OpenAI from your local
 
 To connect to OpenAI from your local, you have two methods, either you connect to it using your OpenAI Api Key or you use something like [LM Studio](https://lmstudio.ai/) and run something locally to simulate the OpenAI API
-

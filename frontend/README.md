@@ -7,11 +7,12 @@ The front-end for the ai-project-manager app.
 - ReactQuery
 - Axios
 - Constate
+- Vite
 
 
 ### Installing the dependencies locally and running the app
 
 ```bash
 npm install
-npm run start
+npm run dev
 ```

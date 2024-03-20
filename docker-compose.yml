@@ -1,49 +1,48 @@
 version: "3.7"
 services:
-  ai-pm-db:
-    image: mongo:latest
-    restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+  # mongodb:
+  #   image: mongo:latest
+  #   restart: always
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=root
+  #     - MONGO_INITDB_ROOT_PASSWORD=root
       
-    ports:
-      - 27017:27017
+  #   ports:
+  #     - 27017:27017
 
-  ai-pm-api:
-    restart: always
-    platform: linux/amd64
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-    command: uvicorn app.api:api --host 0.0.0.0 --port 8000 --reload
-    ports:
-      - 8000:8000
-    depends_on:
-      - ai-pm-db
-    volumes:
-      - ./backend:/opt/app:cached
-    environment:
-      - ENVIRONMENT=LOCAL
-      - DATABASE_URI=mongodb://root:root@ai-pm-db:27017/
-      - OPENAI_BASE_URL=http://localhost:1234/v1
-      - OPENAI_API_KEY=lm-studio
+  # api:
+  #   restart: always
+  #   platform: linux/amd64
+  #   build:
+  #     context: .
+  #     dockerfile: backend/Dockerfile
+  #   command: uvicorn app.api:api --host 0.0.0.0 --port 8000 --reload
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - ai-pm-db
+  #   volumes:
+  #     - ./backend:/opt/app:cached
+  #   environment:
+  #     - ENVIRONMENT=LOCAL
+  #     - DATABASE_URI=mongodb://root:root@mongodb:27017/
+  #     - OPENAI_BASE_URL=http://localhost:1234/v1
+  #     - OPENAI_API_KEY=lm-studio
 
-  ai-pm-app:
+  app:
     restart: always
-    platform: linux/amd64
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    command: npm run start
+    command: npm run dev
     ports:
-      - 8000:8000
-    depends_on:
-      - ai-pm-db
-      - ai-pm-api
+      - 5173:5173
+    # depends_on:
+    #   - db
+    #   - api
     volumes:
       - ./frontend:/opt/app:cached
     environment:
       - ENVIRONMENT=LOCAL
-      - BASE_API_URI=mongodb://root:root@ai-pm-db:27017/
+      - BASE_API_URI=http://localhost:8000
 
