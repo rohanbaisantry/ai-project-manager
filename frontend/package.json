@@ -1,36 +1,27 @@
 {
   "name": "ai-project-manager-app",
-  "version": "0.1.0",
-  "author": {
-    "name": "Rohan Baisantry"
-  },
-  "engines": {
-    "node": "18.15.0"
-  },
   "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "author": "Rohan Baisantry",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.14",
-    "@mui/material": "^5.15.14",
-    "axios": "^1.6.8",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "react-query": "^3.39.3"
+    "react-dom": "latest"
   },
   "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
+    "typescript": "latest",
     "vite": "latest"
-  },
-  "overrides": {
-    "vite": {
-      "rollup": "npm:@rollup/wasm-node",
-      "esbuild": "npm:esbuild-wasm"
-    }
   }
 }

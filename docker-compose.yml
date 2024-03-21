@@ -29,21 +29,21 @@ services:
       - OPENAI_BASE_URL=http://localhost:1234/v1
       - OPENAI_API_KEY=lm-studio
 
-  # app:
-  #   restart: always
-  #   platform: linux/amd64
-  #   build:
-  #     context: .
-  #     dockerfile: frontend/Dockerfile
-  #   command: npm run dev
-  #   ports:
-  #     - 5173:5173
-  #   depends_on:
-  #     - mongodb
-  #     - api
-  #   volumes:
-  #     - ./frontend:/opt/app:cached
-  #   environment:
-  #     - ENVIRONMENT=LOCAL
-  #     - BASE_API_URI=http://localhost:8000
+  app:
+    restart: always
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    command: npm run dev
+    ports:
+      - 5173:5173
+    depends_on:
+      - mongodb
+      - api
+    volumes:
+      - ./frontend:/opt/app:cached
+    environment:
+      - ENVIRONMENT=LOCAL
+      - BASE_API_URI=http://localhost:8000
 
