@@ -1,8 +1,9 @@
 from typing import Self
 
+from beanie import PydanticObjectId, exceptions
+
 from app.tasks.entities import CreateTaskEntity, UpdateTaskEntity
 from app.tasks.models import Task
-from beanie import PydanticObjectId, exceptions
 
 
 class TaskRepository:
@@ -14,7 +15,7 @@ class TaskRepository:
             name=data.name,
             description=data.description,
             start_datetime=data.start_datetime,
-            end_datetime=data.end_datetime,
+            due_datetime=data.due_datetime,
             next_follow_up_datetime=data.next_follow_up_datetime,
             company=data.company_id,
             asignee=data.asignee_user_id,
@@ -24,12 +25,12 @@ class TaskRepository:
         return await Task.get(task_id)
 
     async def get_tasks_by_user_id(self: Self, user_id: PydanticObjectId) -> list[Task]:
-        return await Task.find_many(Task.asignee == user_id)
+        return await Task.find_many(Task.asignee.id == user_id)
 
     async def get_tasks_by_company_id(
         self: Self, company_id: PydanticObjectId
     ) -> list[Task]:
-        return await Task.find_many(Task.company == company_id).to_list()
+        return await Task.find_many(Task.company.id == company_id).to_list()
 
     async def update_task(
         self: Self, task_id: PydanticObjectId, updates: UpdateTaskEntity
@@ -40,16 +41,22 @@ class TaskRepository:
 
         mongo_updates = {}
         if updates.new_comment:
-            mongo_updates["$push"] = {"comments": updates.new_comment}
-        if updates.is_completed:
-            mongo_updates["$set"] = {"is_completed": updates.is_completed}
-        if updates.start_datetime or updates.end_datetime:
-            mongo_updates["$set"] = {}
-        if updates.start_datetime:
-            mongo_updates["$set"]["start_datetime"] = updates.start_datetime
-        if updates.next_follow_up_datetime:
-            mongo_updates["$set"]["next_follow_up_datetime"] = updates.start_datetime
-        if updates.end_datetime:
-            mongo_updates["$set"]["end_datetime"] = updates.end_datetime
-        await task.set(mongo_updates)
+            await task.update({"$push": {"comments": updates.new_comment}})
+
+        if (
+            updates.start_datetime
+            or updates.due_datetime
+            or updates.is_completed is not None
+        ):
+            mongo_updates = {}
+            if updates.start_datetime:
+                mongo_updates["start_datetime"] = updates.start_datetime
+            if updates.next_follow_up_datetime:
+                mongo_updates["next_follow_up_datetime"] = updates.start_datetime
+            if updates.due_datetime:
+                mongo_updates["due_datetime"] = updates.due_datetime
+            if updates.is_completed is not None:
+                mongo_updates["is_completed"] = updates.is_completed
+            await task.set(mongo_updates)
+
         return await self.get_task_by_id(task_id)

@@ -1,9 +1,10 @@
 from typing import Self
 
+from beanie import PydanticObjectId, exceptions
+
 from app.users.entities import CreateUserEntity
 from app.users.models import User
 from app.users.schemas import UserChat
-from beanie import PydanticObjectId, exceptions
 
 
 class UserRepository:
@@ -29,6 +30,11 @@ class UserRepository:
     async def get_user_by_mobile(self: Self, mobile: str):
         return await User.find({"mobile": mobile}).first_or_none()
 
+    async def get_users_of_a_company(
+        self: Self, company_id: PydanticObjectId
+    ) -> list[User]:
+        return await User.find_many(User.company.id == company_id).to_list()
+
     async def add_chat(
         self: Self, user_id: PydanticObjectId, new_chat: UserChat
     ) -> User:
@@ -36,6 +42,5 @@ class UserRepository:
         if not user:
             raise exceptions.DocumentNotFound()
 
-        await user.set({"$push": {"chats": new_chat}})
-        await user.reload()
-        return user
+        await user.update({"$push": {"chats": new_chat}})
+        return await self.get_user_by_id(user_id)

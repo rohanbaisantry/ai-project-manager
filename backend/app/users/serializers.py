@@ -9,6 +9,7 @@ async def serialize_user(user: User, get_company=False) -> UserSchema:
         role=user.role.value,
         mobile=user.mobile,
         chats=user.chats,
+        company_id=user.company.to_ref().id,
     )
     if get_company:
         user_schema.company = await user.fetch_link("company")

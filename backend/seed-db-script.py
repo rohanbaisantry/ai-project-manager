@@ -3,13 +3,14 @@ import os
 from datetime import datetime, timedelta
 
 import motor.motor_asyncio
+from beanie import init_beanie
+from bson.objectid import ObjectId
+from dotenv import load_dotenv
+
 from app.companies.models import Company
 from app.tasks.models import Task
 from app.users.enums import UserRoles
 from app.users.models import User
-from beanie import init_beanie
-from bson.objectid import ObjectId
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -46,7 +47,7 @@ task_seed_data = [
         "name": "Task1",
         "description": "Task1's Description",
         "start_datetime": datetime.now(),
-        "end_datetime": datetime.now() + timedelta(hours=3),
+        "due_datetime": datetime.now() + timedelta(hours=3),
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],
@@ -57,7 +58,7 @@ task_seed_data = [
         "name": "Task1",
         "description": "Task1's Description",
         "start_datetime": datetime.now(),
-        "end_datetime": datetime.now() + timedelta(hours=3),
+        "due_datetime": datetime.now() + timedelta(hours=3),
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],
@@ -69,7 +70,7 @@ task_seed_data = [
         "description": "Task1's Description",
         "start_datetime": datetime.now(),
         "next_follow_up_datetime": datetime.now() + timedelta(hours=3),
-        "end_datetime": datetime.now() + timedelta(hours=3),
+        "due_datetime": datetime.now() + timedelta(hours=3),
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],

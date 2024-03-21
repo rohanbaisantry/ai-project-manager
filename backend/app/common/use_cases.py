@@ -2,6 +2,9 @@ from asyncio import Task
 from datetime import datetime
 from typing import Self
 
+from beanie import PydanticObjectId
+from beanie.exceptions import DocumentAlreadyCreated, DocumentNotFound
+
 from app.common.entities import SignupEntity
 from app.companies.entities import CreateCompanyEntity
 from app.companies.models import Company
@@ -13,8 +16,6 @@ from app.users.enums import UserChatSentBy, UserRoles
 from app.users.models import User
 from app.users.repositories import UserRepository
 from app.users.schemas import UserChat
-from beanie import PydanticObjectId
-from beanie.exceptions import DocumentAlreadyCreated
 
 
 class CommonUseCases:
@@ -50,7 +51,11 @@ class CommonUseCases:
         self: Self, mobile: str
     ) -> tuple[User, Company, list[User], list[Task]]:
         user = await self.user_repo.get_user_by_mobile(mobile)
-        company = await self.company_repo.get_company_by_id(user.company)
+        if not user:
+            raise DocumentNotFound()
+        company = await self.company_repo.get_company_by_id(user.company.to_ref().id)
+        if not company:
+            raise DocumentNotFound()
         team_members = await self.user_repo.get_users_of_a_company(company.id)
         tasks = await self.task_repo.get_tasks_by_company_id(company.id)
 
@@ -70,15 +75,15 @@ class CommonUseCases:
         return await self.task_repo.update_task(task_id, updates)
 
     async def save_new_chat_and_get_response(
-        self: Self, user_id: PydanticObjectId, message: str
+        self: Self, user_id: PydanticObjectId, content: str
     ) -> UserChat:
         new_chat = UserChat(
-            sent_at=datetime.now(), sent_by=UserChatSentBy.USER, content=message
+            sent_at=datetime.now(), sent_by=UserChatSentBy.USER, content=content
         )
         await self.user_repo.add_chat(user_id, new_chat)
         # TODO: Trigger AI and update Tasks + follow-up notifications handling.
         response_from_system = UserChat(
-            sent_at=datetime.now(), sent_by=UserChatSentBy.SYSTEM, content=message
+            sent_at=datetime.now(), sent_by=UserChatSentBy.SYSTEM, content=content
         )
         await self.user_repo.add_chat(user_id, response_from_system)
         # TODO: Take action based on the response

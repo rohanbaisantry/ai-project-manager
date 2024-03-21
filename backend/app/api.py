@@ -1,10 +1,12 @@
+from beanie.exceptions import DocumentAlreadyCreated, DocumentNotFound
+from fastapi.responses import PlainTextResponse
+from pymongo.errors import DuplicateKeyError
+from starlette.middleware.cors import CORSMiddleware
+
 from app.common.enums import Environments
 from app.config import settings
 from app.factories.api import setup_api
 from app.factories.logging import configure_logging
-from beanie.exceptions import DocumentAlreadyCreated, DocumentNotFound
-from fastapi.responses import PlainTextResponse
-from starlette.middleware.cors import CORSMiddleware
 
 
 def get_allowed_origins() -> list[str]:
@@ -38,4 +40,9 @@ async def not_found_exception_handler(_request, _exc):
 
 @api.exception_handler(DocumentAlreadyCreated)
 async def already_created_exception_handler(_request, _exc):
+    return PlainTextResponse("The resource already exists.", status_code=409)
+
+
+@api.exception_handler(DuplicateKeyError)
+async def duplicate_key_exception_handler(_request, _exc):
     return PlainTextResponse("The resource already exists.", status_code=409)
