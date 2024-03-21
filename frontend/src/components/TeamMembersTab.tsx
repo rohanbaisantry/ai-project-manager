@@ -65,6 +65,7 @@ export const TeamMembersTab = ({ globalCompanyDetails }: {globalCompanyDetails: 
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
+                <TableCell align="right">{row.role}</TableCell>
                 <TableCell align="right">{row.mobile}</TableCell>
               </TableRow>
             ))}
@@ -75,7 +76,6 @@ export const TeamMembersTab = ({ globalCompanyDetails }: {globalCompanyDetails: 
         <DialogTitle>{currentMember.name ? 'Edit Team Member' : 'Add Team Member'}</DialogTitle>
         <DialogContent>
           <TextField autoFocus margin="dense" name="name" label="Name" type="text" fullWidth variant="outlined" value={currentMember.name || ''} onChange={handleChange} />
-          <TextField margin="dense" name="role" label="Role" type="text" fullWidth variant="outlined" value={currentMember.role || ''} onChange={handleChange} />
           <TextField margin="dense" name="mobile" label="Mobile" type="tel" fullWidth variant="outlined" value={currentMember.mobile || ''} onChange={handleChange} />
         </DialogContent>
         <DialogActions>
