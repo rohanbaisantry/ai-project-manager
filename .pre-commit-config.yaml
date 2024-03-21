@@ -12,14 +12,14 @@ repos:
     hooks:
       - id: black
         language_version: python3.11
-        files: ^backend/
+        files: ^backend/.*\.py$
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
         language_version: python3.11
-        files: ^backend/
+        files: ^backend/.*\.py$
 
   # Frontend specific hooks
   - repo: local
