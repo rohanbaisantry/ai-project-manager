@@ -70,7 +70,7 @@ export const TasksTab = ({ globalCompanyDetails }: {globalCompanyDetails: Global
         <DialogContent>
           <TextField autoFocus margin="dense" name="name" label="Name" type="text" fullWidth variant="outlined" value={currentTask?.name || ''} onChange={handleChange} />
           <TextField margin="dense" name="description" label="Description" type="text" fullWidth multiline rows={4} variant="outlined" value={currentTask?.description || ''} onChange={handleChange} />
-          <TextField margin="dense" name="assignee_name" label="Assignee" type="text" fullWidth variant="outlined" value={currentTask?.assignee_name || ''} onChange={handleChange} />
+          <TextField margin="dense" name="assignee_name" label="Assignee" type="text" fullWidth variant="outlined" value={currentTask?.assignee_id || ''} onChange={handleChange} />
           <TextField margin="dense" name="start_datetime" label="Start Date and Time" type="datetime-local" fullWidth variant="outlined" InputLabelProps={{ shrink: true }} value={currentTask?.start_datetime || ''} onChange={handleChange} />
           <TextField margin="dense" name="due_datetime" label="Due Date and Time" type="datetime-local" fullWidth variant="outlined" InputLabelProps={{ shrink: true }} value={currentTask?.due_datetime || ''} onChange={handleChange} />
         </DialogContent>
