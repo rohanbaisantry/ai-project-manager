@@ -5,7 +5,7 @@
   "type": "module",
   "author": "Rohan Baisantry",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -23,5 +23,11 @@
     "@vitejs/plugin-react": "latest",
     "typescript": "latest",
     "vite": "latest"
+  },
+  "overrides": {
+    "vite": {
+      "rollup": "npm:@rollup/wasm-node",
+      "esbuild": "npm:esbuild-wasm"
+    }
   }
 }
