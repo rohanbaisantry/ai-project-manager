@@ -1,6 +1,6 @@
-from backend.app.companies.schemas import CompanySchema
-from backend.app.tasks.schemas import TaskSchema
-from backend.app.users.schemas import UserSchema
+from app.companies.schemas import CompanySchema
+from app.tasks.schemas import TaskSchema
+from app.users.schemas import UserSchema
 
 
 class CompanyGlobalDataSchema(BaseModel):

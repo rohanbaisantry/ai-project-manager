@@ -8,8 +8,8 @@ class SignupEntity(BaseModel):
 
 
 class CreateTeamMemberEntity(BaseModel):
-    user_name: str
-    user_mobile: str
+    name: str
+    mobile: str
 
 
 class SaveNewChatEntity(BaseModel):

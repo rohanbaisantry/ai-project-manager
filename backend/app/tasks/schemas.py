@@ -1,11 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
+from app.companies.schemas import CompanySchema
+from app.users.schemas import UserSchema
 from beanie import PydanticObjectId
 from pydantic import BaseModel
-
-from backend.app.companies.schemas import CompanySchema
-from backend.app.users.schemas import UserSchema
 
 
 class TaskSchema(BaseModel):

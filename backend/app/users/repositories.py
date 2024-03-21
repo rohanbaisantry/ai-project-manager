@@ -1,8 +1,8 @@
 from typing import Self
 
 from app.users.entities import CreateUserEntity
-from app.users.schemas import UserChat
 from app.users.models import User
+from app.users.schemas import UserChat
 from beanie import PydanticObjectId, exceptions
 
 

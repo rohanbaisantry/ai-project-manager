@@ -52,5 +52,4 @@ class TaskRepository:
         if updates.end_datetime:
             mongo_updates["$set"]["end_datetime"] = updates.end_datetime
         await task.set(mongo_updates)
-        await task.reload()
-        return task
+        return await self.get_task_by_id(task_id)
