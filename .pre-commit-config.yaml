@@ -36,5 +36,5 @@ repos:
         entry: npx prettier --write
         language: node
         types: [javascript, css, html]
-        files: ^frontend/
+        files: ^frontend/.*
         additional_dependencies: [prettier@2.3.2]
