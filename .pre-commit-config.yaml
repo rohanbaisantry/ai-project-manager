@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: isort
         language_version: python3.11
-        files: ^backend/.*\.py$
+        files: ^backend/.*
 
   # Frontend specific hooks
   - repo: local
