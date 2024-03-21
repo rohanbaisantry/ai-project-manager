@@ -61,7 +61,7 @@ export const TeamMembersTab = ({ globalCompanyDetails }: {globalCompanyDetails: 
           </TableHead>
           <TableBody>
             {teamMembers.map((row) => (
-              <TableRow key={row.name} hover onClick={() => handleOpen(row)}>
+              <TableRow key={row.name} hover onClick={() => handleOpen(row)} sx={{cursor: 'pointer'}}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>

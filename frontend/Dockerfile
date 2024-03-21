@@ -7,7 +7,7 @@ WORKDIR /opt/app
 COPY frontend/package*.json .
 
 # Install the packages declared in package.json or package-lock.json
-RUN npm ci
+RUN npm i
 
 # Copy project files
 COPY frontend/ /opt/app

@@ -55,7 +55,7 @@ export const TasksTab = ({ globalCompanyDetails }: {globalCompanyDetails: Global
         Add A New Task
       </Button>
       {tasks.map((task, index) => (
-        <Card key={index} sx={{ marginBottom: '20px', cursor: 'pointer' }} onClick={() => handleOpen(task)}>
+        <Card key={index} sx={{ marginBottom: '20px', cursor: 'pointer' }} onClick={() => handleOpen(task)} elevation={2}>
           <CardContent>
             <Typography variant="h5">{task.name}</Typography>
             <Typography color="text.secondary">Start: {task.start_datetime.toLocaleString()}</Typography>

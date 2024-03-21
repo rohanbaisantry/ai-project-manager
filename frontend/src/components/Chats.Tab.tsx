@@ -27,7 +27,6 @@ export const ChatsTab = ({ globalCompanyDetails }: {globalCompanyDetails: Global
     setNewMessage(''); // Reset input field after sending
     // You might want to refetch the conversation or update it locally here
   };
-  console.log({selectedMember})
 
   return (
     <Grid container spacing={2}>
