@@ -17,7 +17,7 @@ class TaskSchema(BaseModel):
     next_follow_up_datetime: Optional[datetime] = None
     comments: list[str]
     assignee: Optional[UserSchema] | None = None
-    asignee_id: PydanticObjectId
+    assignee_id: PydanticObjectId
     company: Optional[CompanySchema] = None
     company_id: PydanticObjectId
     is_completed: bool

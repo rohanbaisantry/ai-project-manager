@@ -1,9 +1,10 @@
 from datetime import datetime
 from typing import List, Optional
 
+from beanie import Document, Link
+
 from app.companies.models import Company
 from app.users.models import User
-from beanie import Document, Link
 
 
 class Task(Document):
@@ -15,7 +16,7 @@ class Task(Document):
     comments: List[str] = []
     is_completed: bool = False
     company: Link[Company]
-    asignee: Link[User]
+    assignee: Link[User]
 
     class Settings:
         name = "tasks"

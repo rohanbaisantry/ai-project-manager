@@ -12,7 +12,7 @@ class CreateTaskEntity(BaseModel):
     due_datetime: datetime
     next_follow_up_datetime: Optional[datetime] = None
     company_id: PydanticObjectId
-    asignee_user_id: PydanticObjectId
+    assignee_user_id: PydanticObjectId
 
 
 class UpdateTaskEntity(BaseModel):

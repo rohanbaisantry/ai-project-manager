@@ -15,12 +15,14 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
+    "bson": "^6.5.0",
     "typescript": "latest",
     "vite": "latest"
   },

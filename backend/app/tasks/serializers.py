@@ -5,7 +5,7 @@ from app.users.schemas import UserSchema
 
 
 def serialize_task(
-    task: Task, asignee: UserSchema | None = None, company: CompanySchema | None = None
+    task: Task, assignee: UserSchema | None = None, company: CompanySchema | None = None
 ) -> TaskSchema:
     task_schema = TaskSchema(
         id=task.id,
@@ -18,7 +18,7 @@ def serialize_task(
         is_completed=task.is_completed,
         company=company,
         company_id=company.id if company else task.company.to_ref().id,
-        asignee=asignee,
-        asignee_id=asignee.id if asignee else task.asignee.to_ref().id,
+        assignee=assignee,
+        assignee_id=assignee.id if assignee else task.assignee.to_ref().id,
     )
     return task_schema

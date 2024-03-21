@@ -18,14 +18,14 @@ class TaskRepository:
             due_datetime=data.due_datetime,
             next_follow_up_datetime=data.next_follow_up_datetime,
             company=data.company_id,
-            asignee=data.asignee_user_id,
+            assignee=data.assignee_user_id,
         ).create()
 
     async def get_task_by_id(self: Self, task_id: PydanticObjectId) -> Task | None:
         return await Task.get(task_id)
 
     async def get_tasks_by_user_id(self: Self, user_id: PydanticObjectId) -> list[Task]:
-        return await Task.find_many(Task.asignee.id == user_id)
+        return await Task.find_many(Task.assignee.id == user_id)
 
     async def get_tasks_by_company_id(
         self: Self, company_id: PydanticObjectId

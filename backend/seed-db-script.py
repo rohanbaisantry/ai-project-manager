@@ -51,7 +51,7 @@ task_seed_data = [
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],
-        "asignee": user_seed_data[0]["id"],
+        "assignee": user_seed_data[0]["id"],
     },
     {
         "id": ObjectId(),
@@ -62,7 +62,7 @@ task_seed_data = [
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],
-        "asignee": user_seed_data[1]["id"],
+        "assignee": user_seed_data[1]["id"],
     },
     {
         "id": ObjectId(),
@@ -74,7 +74,7 @@ task_seed_data = [
         "comments": [],
         "is_completed": False,
         "company": company_seed_data[0]["id"],
-        "asignee": user_seed_data[2]["id"],
+        "assignee": user_seed_data[2]["id"],
     },
 ]
 seed_data = {
