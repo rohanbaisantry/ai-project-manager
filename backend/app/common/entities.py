@@ -7,10 +7,10 @@ class SignupEntity(BaseModel):
     company_name: str
 
 
-class CreateTeamMembersEntity(BaseModel):
+class CreateTeamMemberEntity(BaseModel):
     user_name: str
     user_mobile: str
 
 
-class CreateTeamMembersRequestEntity(BaseModel):
-    team_members: list[CreateTeamMembersEntity]
+class SaveNewChatEntity(BaseModel):
+    message: str

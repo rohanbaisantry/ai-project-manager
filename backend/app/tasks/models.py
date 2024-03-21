@@ -10,7 +10,7 @@ class Task(Document):
     name: str
     description: str
     start_datetime: datetime
-    end_datetime: datetime
+    due_datetime: datetime
     next_follow_up_datetime: Optional[datetime]
     comments: List[str] = []
     is_completed: bool = False

@@ -1,6 +1,7 @@
 from typing import Self
 
-from app.users.entities import CreateUserEntity, UserChatEntity
+from app.users.entities import CreateUserEntity
+from app.users.schemas import UserChat
 from app.users.models import User
 from beanie import PydanticObjectId, exceptions
 
@@ -28,8 +29,8 @@ class UserRepository:
     async def get_user_by_mobile(self: Self, mobile: str):
         return await User.find({"mobile": mobile}).first_or_none()
 
-    async def update_user_chats(
-        self: Self, user_id: PydanticObjectId, new_chat: UserChatEntity
+    async def add_chat(
+        self: Self, user_id: PydanticObjectId, new_chat: UserChat
     ) -> User:
         user = await self.get_user_by_id(user_id)
         if not user:

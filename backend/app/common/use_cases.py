@@ -1,6 +1,6 @@
 from typing import Self
 
-from app.auth.entities import CreateTeamMembersEntity, SignupEntity
+from app.auth.entities import CreateTeamMemberEntity, SignupEntity
 from app.companies.entities import CreateCompanyEntity
 from app.companies.models import Company
 from app.companies.repositories import CompanyRepository
@@ -12,7 +12,7 @@ from beanie import PydanticObjectId
 from beanie.exceptions import DocumentAlreadyCreated
 
 
-class AuthUseCases:
+class CommonUseCases:
     def __init__(
         self: Self, user_repo=UserRepository(), company_repo=CompanyRepository()
     ):
@@ -38,7 +38,7 @@ class AuthUseCases:
         return user, company
 
     async def add_team_members_to_company(
-        self: Self, company_id: PydanticObjectId, data: list[CreateTeamMembersEntity]
+        self: Self, company_id: PydanticObjectId, data: list[CreateTeamMemberEntity]
     ) -> list[User]:
         return await self.user_repo.create_users(
             [
