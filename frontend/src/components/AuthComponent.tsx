@@ -3,7 +3,39 @@ import { Button, TextField, Box, Typography, Switch } from '@mui/material';
 import { GlobalUserDetails } from '../types';
 
 export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (globalCompanyDetails: GlobalUserDetails) => void}) => {
-  const [isSignup, setIsSignup] = useState(false);
+
+  const login = useMutation(member => {
+    return fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(member),
+    });
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('login')
+      handleClose();
+    },
+  });
+
+  const signup`` = useMutation(member => {
+    return fetch('/signup`', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(member),
+    });
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('login')
+      handleClose();
+    },
+  });
+
+
+  const [isLogin, setIsLogin] = useState(false);
   const [userDetails, setUserDetails] = useState({
     name: '',
     mobile: '',
@@ -26,113 +58,29 @@ export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (global
     }));
   };
 
-  const toggleForm = () => {
-    setIsSignup(!isSignup);
-  };
-
   const handleSubmit = async () => {
-    if (isSignup) {
-      // Handle signup
-      // Ideally, you'd send 'name', 'mobile', 'companyName' to your signup endpoint
-      console.log('Signup details:', userDetails);
-    } else {
-      // Handle login
+    if (isLogin) {
       login(userDetails);
+    } else {
+      signup(userDetails);
     }
   };
 
   const login = async (details: any) => {
-    console.log('Logging in with:', details);
     localStorage.setItem('mobile', details.mobile);
-    const globalCompanyDetails = {
-      "user": {
-        "id": "5eb7cf5a86d9755df3a6c593",
-        "name": "string",
-        "role": "string",
-        "mobile": "string",
-        "chats": [
-          {
-            "content": "string",
-            "sent_by": "USER",
-            "sent_at": "2024-03-21T13:14:09.238Z"
-          }
-        ],
-        "company": {
-          "id": "5eb7cf5a86d9755df3a6c593",
-          "name": "string"
-        },
-        "company_id": "5eb7cf5a86d9755df3a6c593"
-      },
-      "company": {
-        "id": "5eb7cf5a86d9755df3a6c593",
-        "name": "string"
-      },
-      "team_members": [
-        {
-          "id": "5eb7cf5a86d9755df3a6c593",
-          "name": "string",
-          "role": "string",
-          "mobile": "string",
-          "chats": [
-            {
-              "content": "string",
-              "sent_by": "USER",
-              "sent_at": "2024-03-21T13:14:09.239Z"
-            }
-          ],
-          "company": {
-            "id": "5eb7cf5a86d9755df3a6c593",
-            "name": "string"
-          },
-          "company_id": "5eb7cf5a86d9755df3a6c593"
-        }
-      ],
-      "tasks": [
-        {
-          "id": "5eb7cf5a86d9755df3a6c593",
-          "name": "string",
-          "description": "string",
-          "start_datetime": "2024-03-21T13:14:09.239Z",
-          "due_datetime": "2024-03-21T13:14:09.239Z",
-          "next_follow_up_datetime": "2024-03-21T13:14:09.239Z",
-          "comments": [
-            "string"
-          ],
-          "assignee": {
-            "id": "5eb7cf5a86d9755df3a6c593",
-            "name": "string",
-            "role": "string",
-            "mobile": "string",
-            "chats": [
-              {
-                "content": "string",
-                "sent_by": "USER",
-                "sent_at": "2024-03-21T13:14:09.239Z"
-              }
-            ],
-            "company": {
-              "id": "5eb7cf5a86d9755df3a6c593",
-              "name": "string"
-            },
-            "company_id": "5eb7cf5a86d9755df3a6c593"
-          },
-          "assignee_id": "5eb7cf5a86d9755df3a6c593",
-          "company": {
-            "id": "5eb7cf5a86d9755df3a6c593",
-            "name": "string"
-          },
-          "company_id": "5eb7cf5a86d9755df3a6c593",
-          "is_completed": true
-        }
-      ]
-    };
+    const globalCompanyDetails = "RESPONSE FROM LOGIN API"
+    setGlobalUserData(globalCompanyDetails);
+  };
+  const signup = async (details: any) => {
+    localStorage.setItem('mobile', details.mobile);
+    const globalCompanyDetails = "RESPONSE FROM SIGNUP API"
     setGlobalUserData(globalCompanyDetails);
   };
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" height="100vh">
-      <Typography variant="h5">{isSignup ? 'Signup' : 'Login'}</Typography>
-      {isSignup && (
+      <Typography variant="h5">{isLogin ? 'Login' : 'Signup'}</Typography>
+      {!isLogin && (
         <TextField
         required
           label="Name"
@@ -153,7 +101,7 @@ export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (global
         margin="normal"
         type="tel"
       />
-      {isSignup && (
+      {!isLogin && (
         <TextField
         required
           label="Company Name"
@@ -165,11 +113,11 @@ export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (global
         />
       )}
       <Button onClick={handleSubmit} variant="contained" style={{ marginTop: '20px' }}>
-        {isSignup ? 'Signup' : 'Login'}
+        {!isLogin ? 'Signup' : 'Login'}
       </Button>
       <Typography variant="body1" style={{ marginTop: '20px' }}>
-        {isSignup ? 'Already have an account?' : "Don't have an account?"}
-        <Switch checked={isSignup} onChange={toggleForm} />
+        Already have an account?
+        <Switch checked={isLogin} onChange={() => setIsLogin(!isLogin)} />
       </Typography>
     </Box>
   );

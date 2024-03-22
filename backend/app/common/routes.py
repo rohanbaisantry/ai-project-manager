@@ -37,6 +37,18 @@ async def login(mobile: str) -> CompanyGlobalDataSchema:
     return await serialize_company_global_data(user, company, team_members, tasks)
 
 
+@router.get("/auth/authenticate")
+async def authenticate(mobile: str) -> CompanyGlobalDataSchema:
+    use_cases = CommonUseCases()
+    (
+        user,
+        company,
+        team_members,
+        tasks,
+    ) = await use_cases.get_company_global_data_from_user_mobile(mobile)
+    return await serialize_company_global_data(user, company, team_members, tasks)
+
+
 # COMPANY ROUTES
 
 

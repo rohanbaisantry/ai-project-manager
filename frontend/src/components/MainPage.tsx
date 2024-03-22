@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import { TasksTab } from './TasksTab';
 import { TeamMembersTab } from './TeamMembersTab';
 import { GlobalUserDetails } from '../types';
-import { ChatsTab } from './Chats.Tab';
+import { ChatsTab } from './ChatsTab';
 
 export const MainPageComponent = ({companyData}: {companyData: GlobalUserDetails}) => {
   const [currentTab, setCurrentTab] = useState(0);
