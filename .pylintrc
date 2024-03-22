@@ -10,5 +10,4 @@ disable=
     E1121, # too-many-function-args
     R0901, # too-many-ancestors
     R0903, # too-few-public-methods
-
-
+    W0719, # broad-exception-raised

@@ -1,8 +1,9 @@
 from typing import Self
 
+from beanie import PydanticObjectId
+
 from app.companies.entities import CreateCompanyEntity
 from app.companies.models import Company
-from beanie import PydanticObjectId
 
 
 class CompanyRepository:

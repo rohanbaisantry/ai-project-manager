@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from app.users.enums import UserChatSentBy, UserRoles
 from beanie import PydanticObjectId
 from pydantic import BaseModel
+
+from app.users.enums import UserChatSentBy, UserRoles
 
 
 class UserChatEntity(BaseModel):

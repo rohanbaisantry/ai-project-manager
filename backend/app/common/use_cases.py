@@ -1,3 +1,4 @@
+import asyncio
 from asyncio import Task
 from datetime import datetime
 from typing import Self
@@ -16,14 +17,15 @@ from app.users.enums import UserChatSentBy, UserRoles
 from app.users.models import User
 from app.users.repositories import UserRepository
 from app.users.schemas import UserChat
+from app.utils.openai import AssistantManager
 
 
 class CommonUseCases:
     def __init__(
         self: Self,
-        user_repo=UserRepository(),
-        company_repo=CompanyRepository(),
-        task_repo=TaskRepository(),
+        user_repo: UserRepository = UserRepository(),
+        company_repo: CompanyRepository = CompanyRepository(),
+        task_repo: TaskRepository = TaskRepository(),
     ):
         self.user_repo = user_repo
         self.company_repo = company_repo
@@ -80,11 +82,50 @@ class CommonUseCases:
         new_chat = UserChat(
             sent_at=datetime.now(), sent_by=UserChatSentBy.USER, content=content
         )
-        await self.user_repo.add_chat(user_id, new_chat)
-        # TODO: Trigger AI and update Tasks + follow-up notifications handling.
+        user = await self.user_repo.add_chat(user_id, new_chat)
+        assistant_manager = AssistantManager(user.id, user.company.to_ref().id)
+        if not user.openai_thread_id:
+            user.openai_thread_id = assistant_manager.thread.id
+            user.save()
+
+        system_response_message = (
+            assistant_manager.process_user_message_and_get_system_response(
+                content, user.openai_thread_id
+            )
+        )
         response_from_system = UserChat(
-            sent_at=datetime.now(), sent_by=UserChatSentBy.SYSTEM, content=content
+            sent_at=datetime.now(),
+            sent_by=UserChatSentBy.SYSTEM,
+            content=system_response_message,
         )
         await self.user_repo.add_chat(user_id, response_from_system)
-        # TODO: Take action based on the response
         return response_from_system
+
+    async def follow_up_for_tasks(self: Self, user: User, task: Task) -> User:
+        assistant_manager = AssistantManager(
+            user.id, task.company.to_ref().id, user.openai_thread_id
+        )
+        system_follow_up_message = assistant_manager.send_follow_up_message(task)
+        follow_up_message_from_system = UserChat(
+            sent_at=datetime.now(),
+            sent_by=UserChatSentBy.SYSTEM,
+            content=system_follow_up_message,
+        )
+        return await self.user_repo.add_chat(user.id, follow_up_message_from_system)
+
+    async def check_and_follow_up_for_tasks(self: Self):
+        now = datetime.now()
+        tasks = await self.task_repo.get_incomplete_tasks()
+        follow_up_tasks = []
+        for task in tasks:
+            user = await self.user_repo.get_user_by_id(task.assignee.to_ref().id)
+            if (
+                task.next_follow_up_datetime
+                and (now - task.next_follow_up_datetime).seconds <= 0
+            ):
+                assistant_manager = AssistantManager(
+                    user.id, task.company.to_ref().id, user.openai_thread_id
+                )
+                follow_up_tasks.append(assistant_manager.send_follow_up_message(task))
+        await asyncio.gather(*follow_up_tasks)
+        print("Completed sending follow up messages to different users.")
