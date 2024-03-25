@@ -1,5 +1,6 @@
 import json
 import time
+from datetime import datetime
 from typing import Self
 
 import openai
@@ -15,7 +16,7 @@ from app.utils.openai.functions import (
 
 
 class AssistantManager:
-    assistant_id = ""
+    assistant_id = "asst_a0DJsuOtjgSe7Lv8E79o62rE"
 
     async def __init__(
         self: Self,
@@ -79,9 +80,19 @@ class AssistantManager:
                     updates=UpdateTaskEntity(
                         new_comment=arguments["comment"],
                         is_completed=arguments["is_completed"],
-                        due_datetime=arguments["due_datetime"],
-                        start_datetime=arguments["start_datetime"],
-                        next_follow_up_datetime=arguments["next_follow_up_datetime"],
+                        due_datetime=datetime.fromisoformat(arguments["due_datetime"])
+                        if arguments["due_datetime"]
+                        else None,
+                        start_datetime=datetime.fromisoformat(
+                            arguments["start_datetime"]
+                        )
+                        if arguments["start_datetime"]
+                        else None,
+                        next_follow_up_datetime=datetime.fromisoformat(
+                            arguments["next_follow_up_datetime"]
+                        )
+                        if arguments["next_follow_up_datetime"]
+                        else None,
                     ),
                 )
                 tool_outputs.append(
@@ -89,13 +100,16 @@ class AssistantManager:
                 )
             elif func_name == "create_new_task_for_self":
                 output_str = await create_new_task_for_self(
-                    task_id=PydanticObjectId(arguments["task_id"]),
-                    updates=CreateTaskEntity(
+                    data=CreateTaskEntity(
                         name=arguments["comment"],
                         description=arguments["is_completed"],
-                        due_datetime=arguments["due_datetime"],
-                        start_datetime=arguments["start_datetime"],
-                        next_follow_up_datetime=arguments["next_follow_up_datetime"],
+                        due_datetime=datetime.fromisoformat(arguments["due_datetime"]),
+                        start_datetime=datetime.fromisoformat(
+                            arguments["start_datetime"]
+                        ),
+                        next_follow_up_datetime=datetime.fromisoformat(
+                            arguments["next_follow_up_datetime"]
+                        ),
                         company_id=self.company_id,
                         user_id=self.user_id,
                     ),

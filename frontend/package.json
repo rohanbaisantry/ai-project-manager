@@ -19,6 +19,7 @@
     "react-query": "^3.39.3"
   },
   "devDependencies": {
+    "@types/node": "^20.11.30",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",

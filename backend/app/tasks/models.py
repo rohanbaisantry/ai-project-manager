@@ -31,4 +31,5 @@ Next Follow Up Date and Time: {self.next_follow_up_datetime.strftime() if self.n
 Is Completed: {self.is_completed}
 Assignee ID: {self.assignee.to_ref().id}
 Company ID: {self.company.to_ref().id}
+Comments: {"|".join([item for item in self.comments])}
 """

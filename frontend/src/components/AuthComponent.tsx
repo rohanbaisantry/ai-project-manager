@@ -1,58 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField, Box, Typography, Switch } from '@mui/material';
-import { GlobalUserDetails } from '../types';
+import { CompanyGlobalDataSchema, SignupEntity } from '../types'; // Import types
+import { useSignupMutation, useLoginMutation } from '../api'; // Import API functions
 
-export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (globalCompanyDetails: GlobalUserDetails) => void}) => {
-
-  const login = useMutation(member => {
-    return fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(member),
-    });
-  }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('login')
-      handleClose();
-    },
-  });
-
-  const signup`` = useMutation(member => {
-    return fetch('/signup`', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(member),
-    });
-  }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('login')
-      handleClose();
-    },
-  });
-
-
+export const AuthComponent = ({ setGlobalUserData }: { setGlobalUserData: (globalUserDetails: CompanyGlobalDataSchema) => void }) => {
   const [isLogin, setIsLogin] = useState(false);
-  const [userDetails, setUserDetails] = useState({
-    name: '',
-    mobile: '',
-    companyName: '',
+  const [userDetails, setUserDetails] = useState<SignupEntity>({
+    user_name: '',  // Updated field name from 'name' to 'user_name'
+    user_mobile: '', // Updated field name from 'mobile' to 'user_mobile'
+    company_name: '',
+  }); // Use SignupEntity type
+
+  const signupMutation = useSignupMutation({
+    onSuccess: (data) => {
+      // Handle successful signup
+      localStorage.setItem('mobile', data.user.mobile); // Updated to use 'user_mobile'
+      setGlobalUserData(data); // Assuming API response matches GlobalUserDetails
+    },
+  });
+
+  const loginMutation = useLoginMutation({
+    onSuccess: (data) => {
+      // Handle successful login
+      localStorage.setItem('mobile', data.user.mobile); // Updated to use 'user_mobile'
+      setGlobalUserData(data); // Assuming API response matches GlobalUserDetails
+    },
   });
 
   // Attempt auto-login if mobile number exists in local storage
   useEffect(() => {
     const mobile = localStorage.getItem('mobile');
     if (mobile) {
-      login({ mobile });
+      loginMutation.mutate(mobile);
     }
   }, []);
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserDetails(prevDetails => ({
+    setUserDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
@@ -60,21 +45,10 @@ export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (global
 
   const handleSubmit = async () => {
     if (isLogin) {
-      login(userDetails);
+      loginMutation.mutate(userDetails.user_mobile); // Pass only mobile for login
     } else {
-      signup(userDetails);
+      signupMutation.mutate(userDetails);
     }
-  };
-
-  const login = async (details: any) => {
-    localStorage.setItem('mobile', details.mobile);
-    const globalCompanyDetails = "RESPONSE FROM LOGIN API"
-    setGlobalUserData(globalCompanyDetails);
-  };
-  const signup = async (details: any) => {
-    localStorage.setItem('mobile', details.mobile);
-    const globalCompanyDetails = "RESPONSE FROM SIGNUP API"
-    setGlobalUserData(globalCompanyDetails);
   };
 
   return (
@@ -82,33 +56,33 @@ export const AuthComponent = ({ setGlobalUserData }: {setGlobalUserData: (global
       <Typography variant="h5">{isLogin ? 'Login' : 'Signup'}</Typography>
       {!isLogin && (
         <TextField
-        required
+          required
           label="Name"
           variant="outlined"
-          value={userDetails.name}
+          value={userDetails.user_name} // Updated field name from 'name' to 'user_name'
           onChange={handleChange}
-          name="name"
+          name="user_name" // Updated field name from 'name' to 'user_name'
           margin="normal"
         />
       )}
       <TextField
-      required
+        required
         label="Mobile Number"
         variant="outlined"
-        value={userDetails.mobile}
+        value={userDetails.user_mobile} // Updated field name from 'mobile' to 'user_mobile'
         onChange={handleChange}
-        name="mobile"
+        name="user_mobile" // Updated field name from 'mobile' to 'user_mobile'
         margin="normal"
         type="tel"
       />
       {!isLogin && (
         <TextField
-        required
+          required
           label="Company Name"
           variant="outlined"
-          value={userDetails.companyName}
+          value={userDetails.company_name}
           onChange={handleChange}
-          name="companyName"
+          name="company_name"
           margin="normal"
         />
       )}

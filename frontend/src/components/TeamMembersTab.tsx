@@ -1,46 +1,36 @@
 import React, { useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { useMutation, useQueryClient } from 'react-query';
-import { GlobalUserDetails } from '../types';
+import { useCreateTeamMemberMutation } from '../api'; // Import API function
+import { CompanyGlobalDataSchema, CreateTeamMemberEntity } from '../types';
 
-export const TeamMembersTab = ({ globalCompanyDetails }: {globalCompanyDetails: GlobalUserDetails}) => {
-  const {team_members: teamMembers} = globalCompanyDetails
+export const TeamMembersTab = ({ globalCompanyDetails }: { globalCompanyDetails: CompanyGlobalDataSchema }) => {
+  const { team_members: teamMembers, company: company } = globalCompanyDetails;
   const [open, setOpen] = useState(false);
-  const [currentMember, setCurrentMember] = useState({});
-  const queryClient = useQueryClient();
+  const [currentMember, setCurrentMember] = useState<CreateTeamMemberEntity>({name: "", mobile: ""});
 
-  const mutation = useMutation(member => {
-    return fetch('/team-member', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(member),
-    });
-  }, {
+  // Use imported API function for creating team members
+  const { mutate: createTeamMember } = useCreateTeamMemberMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries('login')
-      handleClose();
+      // You might want to refetch the team members list or update it locally here
+      handleClose(); // Close the dialog after successful creation
     },
   });
 
-  const handleOpen = (member = {}) => {
+  const handleOpen = (member: CreateTeamMemberEntity = {name: "", mobile: ""}) => {
     setCurrentMember(member);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setCurrentMember({});
+    setCurrentMember({name: "", mobile: ""});
   };
 
   const handleSave = () => {
-    if (currentMember) {
-      mutation.mutate(currentMember);
-    }
+    createTeamMember({ companyId: company.id, data: currentMember });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setCurrentMember({ ...currentMember, [name]: value });
   };
@@ -61,7 +51,7 @@ export const TeamMembersTab = ({ globalCompanyDetails }: {globalCompanyDetails: 
           </TableHead>
           <TableBody>
             {teamMembers.map((row) => (
-              <TableRow key={row.name} hover onClick={() => handleOpen(row)} sx={{cursor: 'pointer'}}>
+              <TableRow key={row.name} hover onClick={() => handleOpen(row)} sx={{ cursor: 'pointer' }}>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>

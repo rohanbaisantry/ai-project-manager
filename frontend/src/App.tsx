@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { AuthComponent } from './components/AuthComponent';
 import { MainPageComponent } from './components/MainPage';
-import { GlobalUserDetails } from './types';
+import { CompanyGlobalDataSchema } from './types';
 import { Box, CircularProgress } from '@mui/material';
-import { useQuery } from 'react-query';
+import { useAuthenticateQuery } from './api'; // Import API function
 
 function App() {
-  const [globalUserData, setGlobalUserData] = useState<GlobalUserDetails | null>(null)
-  const mobile = localStorage.get("mobile")
+  const [globalUserData, setGlobalUserData] = useState<CompanyGlobalDataSchema | null>(null);
+  const mobile = localStorage.getItem("mobile");
 
-  // const {data, isFetching} = UseQuery function to the authenticate endpoint.
+  // Use the imported API function for authentication
+  const { data, isFetching } = useAuthenticateQuery(mobile ?? "", {
+    enabled: !!mobile, // Only fetch if mobile number exists
+    onSuccess: (data) => setGlobalUserData(data), // Update state on success
+  });
 
   return (
     <div>
-      {isFetching ? <Box my={5} textAlign="center"><CircularProgress /></Box>: !data ? (
+      {isFetching ? (
+        <Box my={5} textAlign="center">
+          <CircularProgress />
+        </Box>
+      ) : !data || !globalUserData ? (
         <AuthComponent setGlobalUserData={setGlobalUserData} />
       ) : (
-        <MainPageComponent companyData={data}/>
+        <MainPageComponent companyData={globalUserData} />
       )}
     </div>
   );

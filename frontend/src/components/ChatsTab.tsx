@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import { Box, Grid, List, ListItem, ListItemText, Divider, Card, CardContent, Typography, TextField, Button, ListItemButton } from '@mui/material';
-import { useMutation } from 'react-query';
-import { GlobalUserDetails } from '../types';
+import { useNewChatReceivedMutation } from '../api'; // Import API function
+import { CompanyGlobalDataSchema, UserSchema } from '../types';
 
-export const ChatsTab = ({ globalCompanyDetails }: {globalCompanyDetails: GlobalUserDetails}) => {
-  const {team_members: teamMembers} = globalCompanyDetails
-  const [selectedMember, setSelectedMember] = useState(null);
+export const ChatsTab = ({ globalCompanyDetails }: { globalCompanyDetails: CompanyGlobalDataSchema }) => {
+  const { team_members: teamMembers } = globalCompanyDetails;
+  const [selectedMember, setSelectedMember] = useState<UserSchema | null>(null);
   const [newMessage, setNewMessage] = useState('');
 
-  const mutation = useMutation(newMessage => {
-    // Assuming the API expects the team member's ID and the message content
-    return fetch('/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        teamMemberId: selectedMember.id, // Replace with the correct identifier
-        content: newMessage,
-      }),
-    });
+  // Use imported API function for sending chat messages
+  const { mutate: sendNewChat } = useNewChatReceivedMutation({
+    onSuccess: () => {
+      // You might want to refetch the conversation or update it locally here
+    },
   });
 
   const handleSendMessage = async () => {
-    await mutation.mutate(newMessage);
+    if (!selectedMember) return; // Ensure a member is selected
+
+    await sendNewChat({
+      userId: selectedMember.id,
+      data: { content: newMessage },
+    });
+
     setNewMessage(''); // Reset input field after sending
-    // You might want to refetch the conversation or update it locally here
   };
 
   return (
@@ -47,16 +45,20 @@ export const ChatsTab = ({ globalCompanyDetails }: {globalCompanyDetails: Global
             marginBottom: '20px',
           }}
         >
-          {selectedMember ? selectedMember.chats.map((chat, index) => (
-            <Card key={index} sx={{ marginBottom: '10px' }}>
-              <CardContent>
-                <Typography color="textSecondary" gutterBottom>
-                  {chat.sent_by} - {new Date(chat.sent_at).toLocaleString()}
-                </Typography>
-                <Typography variant="body2">{chat.content}</Typography>
-              </CardContent>
-            </Card>
-          )) : <Typography variant="body2">Select A Conversation</Typography>}
+          {selectedMember ? (
+            selectedMember.chats.map((chat, index) => (
+              <Card key={index} sx={{ marginBottom: '10px' }}>
+                <CardContent>
+                  <Typography color="textSecondary" gutterBottom>
+                    {chat.sent_by} - {new Date(chat.sent_at).toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2">{chat.content}</Typography>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <Typography variant="body2">Select A Conversation</Typography>
+          )}
         </Box>
         <Divider />
         <Box

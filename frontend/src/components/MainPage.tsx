@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import { TasksTab } from './TasksTab';
 import { TeamMembersTab } from './TeamMembersTab';
-import { GlobalUserDetails } from '../types';
+import { CompanyGlobalDataSchema } from '../types';
 import { ChatsTab } from './ChatsTab';
 
-export const MainPageComponent = ({companyData}: {companyData: GlobalUserDetails}) => {
+export const MainPageComponent = ({companyData}: {companyData: CompanyGlobalDataSchema}) => {
   const [currentTab, setCurrentTab] = useState(0);
 
   const handleTabChange = (event: any, newValue: React.SetStateAction<number>) => {
